@@ -15,11 +15,11 @@ public interface QuestionanswerMapper {
 
     @Insert({
             "<script>",
-            "insert into questionanswer(user_ip,questionnaire_id,questionandoption_id,answer) values ",
-            "<foreach collection='questionanswer' item='answer_id' index='index' separator=','>",
-            "(#{item.user_ip}, #{item.questionnaire_id}, #{item.questionandoption_id},#{item.answer})",
+            "INSERT INTO questionanswer(user_ip,questionnaire_id,questionandoption_id,answer) values ",
+            "<foreach collection='questionanswer' item='B' index='index' separator=','>",
+            "(#{B.user_ip}, #{B.questionnaire_id}, #{B.questionandoption_id},#{B.answer})",
             "</foreach>",
             "</script>"
     })
-    int addquestionanswer(@Param(value="testLists") List<Questionanswer> questionanswer);
+    int addquestionanswer(@Param(value="questionanswer") List<Questionanswer> questionanswer) ;
 }

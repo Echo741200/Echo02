@@ -16,5 +16,8 @@ public interface UserMapper {
     Integer userRegister(User user);
     @Select({"SELECT  id,user_id,user_password FROM User WHERE user_id=#{user_id} AND user_password=#{user_password}"})
     List<User> userLogin(int user_id,String user_password);
+    @Select({"SELECT  id,user_id,user_password FROM User WHERE user_id=#{user_id} "})
+    List<User> selectUser(int user_id);
+
 }
 

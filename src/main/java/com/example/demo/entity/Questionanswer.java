@@ -3,6 +3,10 @@ package com.example.demo.entity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+
+/**
+ * 问卷答案实体
+ */
 @ApiModel(value = "问卷答案",description = "问卷答案详细信息")
 public class Questionanswer {
     @ApiModelProperty(value = "答案id")
@@ -15,6 +19,17 @@ public class Questionanswer {
     private  Integer questionandoption_id;
     @ApiModelProperty(value = "题目答案")
     private  String answer;
+    public Integer getAnswer_id() {
+        return answer_id;
+    }
+    public void setAnswer_id(Integer answer_id) {
+        this.answer_id = answer_id;
+    }
+
+
+
+
+
 
     public Integer getUser_ip() {
         return user_ip;

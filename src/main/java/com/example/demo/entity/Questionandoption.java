@@ -5,7 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 @ApiModel(value = "题目",description = "题目详细信息")
 public class Questionandoption {
     @ApiModelProperty(value = "题目id")
-    private Integer id;
+    private Integer questionandoption_id;
     @ApiModelProperty(value = "问卷id")
     private Integer questionnaire_id;
     @ApiModelProperty(value = "题目编号")
@@ -29,11 +29,11 @@ public class Questionandoption {
     @ApiModelProperty(value = "题目选项4的人数")
     private Integer option4_nun;
     public Integer getId() {
-        return id;
+        return questionandoption_id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setId(Integer questionandoption_id) {
+        this.questionandoption_id = questionandoption_id;
     }
 
     public Integer getQuestionnaire_id() {

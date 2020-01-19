@@ -2,9 +2,9 @@ package com.example.demo.entity;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import javafx.scene.chart.PieChart;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * 问卷实体
@@ -20,7 +20,18 @@ public class Questionnaire {
     @ApiModelProperty(value = "用户id")
     private  int userid;
     @ApiModelProperty(value = "是否删除问卷（0不删1删除，默认为0)")
-    private  boolean is_delete;
+    private  Integer is_delete;
+    @ApiModelProperty(value = "问卷问题")
+    public List<Questionandoption> questionandoptionList;
+
+
+    public List<Questionandoption> getQuestionandoptionList() {
+        return questionandoptionList;
+    }
+
+    public void setQuestionandoptionList(List<Questionandoption> questionandoptionList) {
+        this.questionandoptionList = questionandoptionList;
+    }
 
     public int getQuestionnaire_id() {
         return questionnaire_id;
@@ -54,11 +65,7 @@ public class Questionnaire {
         this.userid = userid;
     }
 
-    public boolean isIs_delete() {
-        return is_delete;
-    }
-
-    public void setIs_delete(boolean is_delete) {
+    public void setIs_delete(Integer is_delete) {
         this.is_delete = is_delete;
     }
 }

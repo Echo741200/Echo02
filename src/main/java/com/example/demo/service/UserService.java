@@ -12,7 +12,12 @@ public class UserService {
 @Autowired
     UserMapper userMapper;
 public Integer userRegister(User user){
-    return userMapper.userRegister(user);
+    if(userMapper.selectUser(user.getUser_id())!=null){
+        return  0;    //判断数据库中账号是否重复
+    }
+    else{
+        return userMapper.userRegister(user);
+    }
 
 }
     public List<User> userListlogin(int user_id,String user_password){

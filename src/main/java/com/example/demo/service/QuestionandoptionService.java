@@ -10,6 +10,6 @@ public class QuestionandoptionService {
     @Autowired
     QuestionandoptionMapper questionandoptionMapper;
     public Integer addquestionandoption(Questionandoption questionandoption){
-        return questionandoptionMapper.addquestionandoption(questionandoption);
+        return questionandoptionMapper.addonequestionandoption(questionandoption);
     }
 }

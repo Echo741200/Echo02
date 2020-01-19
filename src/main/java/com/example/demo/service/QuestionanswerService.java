@@ -12,7 +12,9 @@ public class QuestionanswerService {
 
     @Autowired
     QuestionanswerMapper questionanswerMapper;
-    public Integer addquestionanswer(List<Questionanswer> questionanswer){
+
+
+    public Integer addquestionanswer(List<Questionanswer> questionanswer)  {
             return questionanswerMapper.addquestionanswer(questionanswer);
 
     }

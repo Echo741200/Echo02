@@ -1,4 +1,5 @@
 package com.example.demo.controller;
+import com.example.demo.entity.Questionandoption;
 import com.example.demo.entity.Questionanswer;
 import com.example.demo.entity.Questionnaire;
 import com.example.demo.entity.Result;
@@ -18,24 +19,27 @@ import java.util.List;
 public class QuestionnaireController {
     @Autowired
     QuestionnaireService questionnaireService;
-    QuestionanswerService questionanswerService;
-    @ApiOperation(value = "发布问卷",httpMethod = "POST",notes = "")
+    @ApiOperation(value = "发布问卷",httpMethod = "POST",notes = "传入题目选项数组，和用户id，问卷名字")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "questionnaire_id",value = "问卷id",required = true),
+            @ApiImplicitParam(name ="questionandoptionList",value = "题目数组",dataType = "List"),
+            @ApiImplicitParam(name = "questionnaire_id",value = "问卷id(数据库自动生成，自增量)"),
             @ApiImplicitParam(name = "questionnaire_name",value = "问卷名字",required = true),
-            @ApiImplicitParam(name = "questionnaire_date",value = "问卷发布时间",required = true),
+            @ApiImplicitParam(name = "questionnaire_date",value = "问卷发布时间"),
             @ApiImplicitParam(name = "userid",value = "用户id",required = true),
-            @ApiImplicitParam(name = "is_delete",value = "是否删除问卷",required = true)
+            @ApiImplicitParam(name = "is_delete",value = "是否删除问卷")
     })
     @PostMapping("Insert")
-    public Result addquestionnaire(@RequestBody  Questionnaire questionnaire) {
-        if (questionnaireService.addquestionnaire(questionnaire) == 1) {
+    public Result addquestionnaire( @RequestBody  Questionnaire questionnaire) {
+        if (questionnaireService.addquestionnaire(questionnaire) != 0) {
             return Result.ok("问卷发布成功！", "");
         }
         else{
             return  Result.error("问卷发布失败","");
         }
     }
+
+
+
     @ApiOperation(value = "删除问卷",httpMethod = "DELETE",notes = "删除问卷是改变问卷状态，并没有在数据库中删除问卷")
     @ApiImplicitParams({
             @ApiImplicitParam(name ="questionnaire_id",value = "问卷id")
@@ -49,6 +53,10 @@ public class QuestionnaireController {
              return Result.error("问卷删除失败！","");
          }
     }
+
+
+    @Autowired
+    QuestionanswerService questionanswerService;
     @ApiOperation(value = "查看自己发布的问卷",httpMethod = "GET",notes = "根据用户id查看问卷表")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id",value = "用户id")
@@ -57,28 +65,37 @@ public class QuestionnaireController {
     public Result selectmyquestionnaire(int id){
         return Result.ok("查询成功！",questionnaireService.selectmyquestionniare(id));
     }
+    @ApiOperation(value = "查看问卷详细信息",httpMethod = "GET",notes = "根据问卷id查看问题信息并计算问题各选项的人数")
+    public Result selectparticularquestion(int questionnaire_id){
+        return Result.ok("查询成功！", questionnaireService.selectparticularquestion(questionnaire_id));
+
+    }
+
+
+
      @ApiOperation(value = "查看所有的问卷",httpMethod = "GET",notes = "查看所有问卷详细信息")
      @GetMapping("allquestionnaire")
     public Result selectallquestionnaire(){
         return Result.ok("查询成功！",questionnaireService.selectallquestionniare());
      }
-     @ApiOperation(value ="提交问卷",httpMethod ="GET",notes = "游客提交问卷,前端传入数组list，后端将数据批量插入数据库,答案id自增")
-     @ApiImplicitParams({
-             @ApiImplicitParam(name = "user_ip",value = "用户ip"),
-             @ApiImplicitParam(name="questionnare_id",value = "问卷id"),
-             @ApiImplicitParam(name="questionandoption_id",value = "题目id"),
-             @ApiImplicitParam(name="answer",value = "题目答案")
 
+
+     @ApiOperation(value ="提交问卷",httpMethod ="POST",notes = "游客提交问卷,前端传入数组list，后端将数据批量插入数据库,答案id自增")
+     @ApiImplicitParams({
+             @ApiImplicitParam(name ="answer_id",value = "答案id(由后端自动生成)"),
+             @ApiImplicitParam(name ="user_ip",value = "用户ip",required = true),
+             @ApiImplicitParam(name="questionnare_id",value = "问卷id",required = true),
+             @ApiImplicitParam(name="questionandoption_id",value = "题目id",required = true),
+             @ApiImplicitParam(name="answer",value = "题目答案",required = true)
      })
      @PostMapping("submit")
-    public Result submitQuestionnaire(@RequestParam(value = "questionanswerList",required=false) List<Questionanswer> questionanswer){
+    public Result submitQuestionnaire(@RequestBody List<Questionanswer> questionanswer)  {
         if(questionanswerService.addquestionanswer(questionanswer)!=0){
             return Result.ok("提交成功！","");
             }
         else{
             return Result.error("提交失败！");
         }
-
      }
 
 

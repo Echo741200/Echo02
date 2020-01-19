@@ -16,12 +16,13 @@ public class UserController {
     private UserService userService;
     @ApiOperation(value = "用户注册",httpMethod = "POST",notes = "传入账号密码后台生成用户id（自增量）")
     @ApiImplicitParams({
+            @ApiImplicitParam(name = "id",value = "用户id（后台自动生成:自增量)"),
             @ApiImplicitParam(name = "user_id",value = "用户账号",required = true),
             @ApiImplicitParam(name = "user_password",value = "用户密码",required = true)
     })
     @PostMapping("register")
-    public Result userregister(@RequestBody User user) {
-        if (user.getId() == 0) {
+    public Result userregister(@RequestBody User user ) {
+        if (user.getUser_id()==0) {
             return Result.error("请输入账号！", "");
         }
         if (user.getUser_password() == null) {
@@ -35,12 +36,13 @@ public class UserController {
     }
     @ApiOperation(value ="用户登录",httpMethod = "GET",notes = "根据前端传入账号密码进行匹配")
     @ApiImplicitParams({
+            @ApiImplicitParam(name = "id",value = "用户id（后台自动生成:自增量)"),
             @ApiImplicitParam(name = "user_id",value = "用户账号",required = true),
             @ApiImplicitParam(name = "user_password",value = "用户密码",required = true)
     })
     @GetMapping("login")
     public Result userlogin(int user_id,String user_password){
-        if(userService.userListlogin(user_id,user_password)!=null){
+        if(userService.userListlogin(user_id,user_password)!=null&&!userService.userListlogin(user_id,user_password).isEmpty()){
             return Result.ok("登录成功！",userService.userListlogin(user_id,user_password));
         }
         else{
